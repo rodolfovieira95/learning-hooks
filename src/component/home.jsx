@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-export default function Home() {
+const Home = () => {
+  // [stateName, functionName] = useState(initialValue)
+  const [count, setCount] = useState(0);
   return (
-    <div>
-      Hello World
-    </div>
+    <>
+      <p>Couner: {count}</p>
+      <button onClick={() => setCount(count + 1)}>+1</button> {/*functionName(whatToDo)*/}
+    </>
   );
 }
+export default Home;
