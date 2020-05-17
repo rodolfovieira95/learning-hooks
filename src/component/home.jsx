@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const Home = () => {
-  // [stateName, functionName] = useState(initialValue)
+  // [stateVariableName, functionName] = useState(initialValue)
   const [count, setCount] = useState(0);
+
+  // Works as componentDidMount, componentDidUpdate and componentWillUnmount.
+  useEffect(() => {
+    console.log('You loaded the component for the first time or changed some state. ');
+  })
   return (
     <>
       <p>Couner: {count}</p>
