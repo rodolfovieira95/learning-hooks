@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import HomeComponent from '../component/home'
 
-export default function Home() {
-  return (<HomeComponent/>);
+const Home = () => {
+  return (<HomeComponent />);
 }
+
+export default Home;
