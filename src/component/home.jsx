@@ -1,4 +1,34 @@
 import React, { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { Button, Container } from 'react-bootstrap';
+
+const CustomContainer = styled(Container)`
+  display:flex;
+  justify-content:center;
+  flex-direction:column;
+  width:500px;
+  font-family:Roboto;
+  font-size:72px;
+`;
+
+const Display = styled.div`
+  display:flex;
+  justify-content:flex-end;
+`;
+
+const ButtonsContainer = styled.div`
+  display:flex;
+  flex-wrap: wrap;
+  width: 500px;
+`;
+
+const NumberButton = styled(Button)`
+width:${ (props) => props.button === 0 ? '220px' : '100px'};
+height:100px;
+margin:10px;
+font-family:Roboto;
+font-size:40px;
+`;
 
 const Home = () => {
   // [stateVariableName, functionName] = useState(initialValue)
@@ -25,9 +55,13 @@ const Home = () => {
   const operatorClickHandler = operator => {
     if (operator === '=') {
       equalClickHandler();
-    } else {
+    }
+    if (operator === '%') {
+      percentageClickHandler();
+    } 
+    else {
       numberHelper(display)
-      setDisplay(operator);
+      setDisplay(operator === 'C' || operator === 'AC' ? '' : operator);
       setOperator(operator);
       resetDisplay(true)
     }
@@ -38,7 +72,15 @@ const Home = () => {
       case '+': return Number(firstValue) + Number(secondValue);
       case '-': return Number(firstValue) - Number(secondValue);
       case 'x': return Number(firstValue) * Number(secondValue);
-      case ':': return Number(firstValue) / Number(secondValue);
+      case '÷': return Number(firstValue) / Number(secondValue);
+      // case 'C': return Number(secondValue);
+      case 'AC': {
+        numberHelper('')
+        setOperator('')
+        resetDisplay(false)
+        setDisplay('')
+        return 0;
+      }
       default: return 0;
     }
   }
@@ -49,22 +91,47 @@ const Home = () => {
     resetDisplay(true)
   }
 
-  const keys = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, '+', '-', ':', 'x', '='];
-  return (
+  const percentageClickHandler = () => {
+    let result = 0;
+    const percentage = Number(display) / 100;
 
-    <>
-      <p>Display: {display}</p>
-      {keys.map((item, index) => {
-        return (
-          <button
-            key={index}
-            onClick={() => clickHandler(item)}
-          >
-            {item}
-          </button>
-        )
-      })}
-    </>
+    switch (operator) {
+      case '+': result = Number(numberhelper) + Number(numberhelper) * percentage; break;
+      case '-': result = Number(numberhelper) - Number(display) * percentage; break;
+      case 'x': result = Number(numberhelper) * percentage; break;
+      case '÷': result = Number(numberhelper) / percentage; break;
+      // case 'C': return Number(secondValue);
+      case 'AC': {
+        numberHelper('')
+        setOperator('')
+        resetDisplay(false)
+        setDisplay('')
+        return 0;
+      }
+      default: return 0;
+    }
+    setDisplay(result)
+  }
+
+  const keys = ['C', 'AC', '%', '÷', 7, 8, 9, 'x', 4, 5, 6, '-', 1, 2, 3, '+', 0, '.', '='];
+  return (
+    <CustomContainer>
+      <Display>{display === '' ? 0 : display}</Display>
+      <ButtonsContainer>
+        {keys.map((item, index) => {
+          return (
+            <NumberButton
+              variant="secondary"
+              key={index}
+              button={item}
+              onClick={() => clickHandler(item)}
+            >
+              {item}
+            </NumberButton>
+          )
+        })}
+      </ButtonsContainer>
+    </CustomContainer>
   );
 }
 export default Home;
