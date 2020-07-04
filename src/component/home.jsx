@@ -58,16 +58,22 @@ const Home = () => {
     }
     if (operator === '%') {
       percentageClickHandler();
-    } 
+    }
     else {
+      console.log('teste')
       numberHelper(display)
-      setDisplay(operator === 'C' || operator === 'AC' ? '' : operator);
+      if (operator === 'C' || operator === 'AC'){
+        setDisplay('');
+      }
       setOperator(operator);
       resetDisplay(true)
     }
   }
 
   const operationHandler = (firstValue, secondValue) => {
+    console.log('operator: ', operator)
+    console.log('firstValue: ', firstValue)
+    console.log('secondValue: ', secondValue)
     switch (operator) {
       case '+': return Number(firstValue) + Number(secondValue);
       case '-': return Number(firstValue) - Number(secondValue);
@@ -87,6 +93,7 @@ const Home = () => {
 
   const equalClickHandler = () => {
     const result = operationHandler(numberhelper, display)
+    console.log('result: ', result)
     setDisplay(result)
     resetDisplay(true)
   }
